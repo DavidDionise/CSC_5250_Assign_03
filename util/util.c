@@ -81,3 +81,9 @@ char* reverseCase(char* str, int length) {
 	return reversed_case_str;
 }
 
+/*int main() {
+	char* str = "hey there";
+	char* new_str = reverseString(str, 9);
+	printf("new str = %s\n", new_str);
+}*/
+

@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 	struct sockaddr_in server_addr;
 	char read_buffer[MAX_READ_LENGTH];
 	
-	socket_fd = Socket(AF_INET, SOCK_STREAM, 0);	
+	socket_fd = socket(AF_INET, SOCK_STREAM, 0);	
 	port_number = atoi(argv[2]);
 
 	// Initialize socket address
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Connect socket
-	Connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+	connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
 
 	puts("Enter a message : ");
 	char* message = getLine();

@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 
 		// Child process
 		if(pid == 0) {
-			char* r_str = processString(read_buffer, len);
+			char* r_str = processString(read_buffer, len - 1);
 
 			if ((write(socket_fd_a, r_str, len)) < 0) {
 				perror("Error writing to client\n");
@@ -57,7 +57,8 @@ int main(int argc, char* argv[]) {
 
 		// Parent process
 		else if(pid > 0){
-			if(wait(0) == -1) {
+			puts("in parent");
+			if(waitpid(pid, 0, 0) == -1) {
 				perror("Error wating for child process. Exited with status");
 				exit(1);
 			}
@@ -79,7 +80,10 @@ char* processString(char* str, int length) {
 	if(str[0] == '^') 
 		str = reverseCase(&str[1], length);
 
-	char* reversed_str = reverseString(str, length);
+	printf("length = %i\n", length);
+	printf("str = %s\n", str);
 
+	char* reversed_str = reverseString(str, length);
+	printf("returning %s\n", reversed_str);
 	return reversed_str;
 }

@@ -1,11 +1,6 @@
 /* Most of this code came from the Unix Network Programming book.
  * The code was tweaked as needed.*/
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-
 #include "NP.h"
-
 
 /****************** Socket Wrappers ********************************/
 

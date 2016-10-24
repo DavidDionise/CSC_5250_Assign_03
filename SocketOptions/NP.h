@@ -1,26 +1,20 @@
-#ifndef NP_H
-#define NP_H
-
 /* Most of this code came from the Unix Network Programming book.
  * The code was tweaked as needed.*/
 enum {MAXLINE = 4096, LISTENQ = 100};
 #include <stdarg.h> 	//Needed for va_list
 #include <errno.h> 	    //Needed to use errno
 #include <strings.h> 	//needed for the bzero function
-#include <string.h>
 #include <stdio.h>      //standard C i/o facilities
 #include <stdlib.h>     //needed for atoi()
 #include <unistd.h>     //Unix System Calls
 #include <sys/types.h>  //system data type definitions
 #include <sys/socket.h> //socket specific definitions
-#include <netdb.h>
 #include <netinet/in.h> //INET constants and stuff
 #include <arpa/inet.h>  //IP address conversion stuff
 #include <stdbool.h>	//Needed for booleans 
 #include <sys/wait.h>   //Needed for waitpid
 #include <signal.h>		//Needed for signal handling 
 #include <syslog.h>    // Needed for syslog()
-
 
 /************* Socket Wrappers *************************************/
 
@@ -49,9 +43,6 @@ void Writen(int fd, void *ptr, size_t nbytes);
 
 //readline wrapper
 ssize_t Readline(int fd, void *ptr, size_t maxlen);
-
-// Read until delim is read
-size_t ReadUntil(int fd, void *buf, char delim);
 
 //recvfrom wrapper
 ssize_t	 Recvfrom(int, void *, size_t, int, struct sockaddr *, socklen_t *);
@@ -108,5 +99,3 @@ Sigfunc *Signal(int signo, Sigfunc *func);
 
 //Fork wrapper
 pid_t Fork(void);
-
-#endif
