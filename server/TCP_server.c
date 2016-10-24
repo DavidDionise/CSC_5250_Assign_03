@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <sys/wait.h>
 
 #include "../SocketOptions/NP.h"
 #include "../util/util.h"
@@ -13,6 +14,7 @@ int main(int argc, char* argv[]) {
 	int socket_fd, socket_fd_a;
 	int port_number = atoi(argv[1]);
 	char read_buffer[MAX_READ_LENGTH];
+	pid_t pid;
 
 	struct sockaddr_in  server_addr, client_addr;
 
@@ -39,10 +41,31 @@ int main(int argc, char* argv[]) {
 			perror("Error reading from client\n");
 			exit(1);
 		}
-		if ((write(socket_fd_a, read_buffer, len)) < 0) {
-			perror("Error writing to client\n");
-			exit(1);
+		
+		pid = fork();
+
+		// Child process
+		if(pid == 0) {
+			char* r_str = processString(read_buffer, len);
+
+			if ((write(socket_fd_a, r_str, len)) < 0) {
+				perror("Error writing to client\n");
+				exit(1);
+			}
+			exit(0);
 		}
+
+		// Parent process
+		else if(pid > 0){
+			if(wait(0) == -1) {
+				perror("Error wating for child process. Exited with status");
+				exit(1);
+			}
+		}
+		
+		// Error forking
+		else 
+			perror("Error forking new process. Exited with status");
 
 		bzero(read_buffer, len);
 	}
@@ -52,9 +75,11 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-char* processString(char* str) {
-	char * reversed_str = reverseString(str);
+char* processString(char* str, int length) {
+	if(str[0] == '^') 
+		str = reverseCase(&str[1], length);
 
+	char* reversed_str = reverseString(str, length);
 
-
+	return reversed_str;
 }
