@@ -2,13 +2,13 @@
 #include <netinet/in.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <sys/time.h>
-
+#include <string.h>
 #include <errno.h>
 #include <math.h>
 #include <netdb.h>
 
-#include "../SocketOptions/NP.h"
 #include "../util/util.h"
 
 #define MAX_READ_LENGTH 2048
@@ -44,16 +44,20 @@ int main(int argc, char* argv[]) {
 
 	while(strcmp(message, "--")) {
 		int length = strlen(message);
+		int read_length;
 
 		if((write(socket_fd, message, length + 1)) < 0) {
 			perror("Error writing to server.");
 			exit(1);
 		}
 
-		if((read(socket_fd, read_buffer, length)) < 0) {
+		if((read_length = read(socket_fd, read_buffer, length)) < 0) {
 			perror("Error reading from server.");
 			exit(1);
 		}
+
+		printf("%s\n", read_buffer);
+		bzero(read_buffer, read_length); 
 	}
 
 	close(socket_fd);
