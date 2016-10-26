@@ -40,9 +40,9 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 	
-		r_str = processString(read_buffer, len);
+		r_str = processString(read_buffer, len - 1);
 
-		if ((sendto(socket_fd, read_buffer, len, 0,
+		if ((sendto(socket_fd, r_str, len, 0,
 			(struct sockaddr *)&client_addr, client_addr_length)) < 0) {
 			perror("Error writing to client\n");
 			exit(1);

@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 	char read_buffer[MAX_READ_LENGTH];
 	char* message;
 	int length, read_length;
-	size_t server_addr_size;	
+	socklen_t server_addr_size;	
 
 	while(1) {
 		socket_fd = socket(AF_INET, SOCK_DGRAM, 0);	
@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
 		// Initialize socket address
 		server_addr.sin_family = AF_INET;
 		server_addr.sin_port = htons(port_number);
+
 		if(inet_aton(getIP(argv[1]), &server_addr.sin_addr.s_addr) == 0) {
 			perror("Error initializing server address\n");
 			exit(1);
@@ -46,9 +47,9 @@ int main(int argc, char* argv[]) {
 			break;
 
 		length = strlen(message);
-		server_addr_size = (size_t)sizeof(server_addr);	
+		server_addr_size = (socklen_t)sizeof(server_addr);	
 		if(sendto(socket_fd, message, length + 1, 0, (const struct sockaddr*)&server_addr, 	
-			sock_addr_size) < 0) {
+			server_addr_size) < 0) {
 			perror("Error sending message to server");
 			exit(1);
 		}

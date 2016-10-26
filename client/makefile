@@ -1,2 +1,2 @@
 all:
-	gcc -g ../util/util.h ../util/util.c TCP_client.c	
+	gcc -g ../util/util.h ../util/util.c UDP_client.c	
