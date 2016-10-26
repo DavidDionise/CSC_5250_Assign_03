@@ -50,12 +50,12 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 
-		if((read_length = read(socket_fd, read_buffer, length)) < 0) {
+		if((read_length = read(socket_fd, read_buffer, length + 1)) < 0) {
 			perror("Error reading from server.");
 			exit(1);
 		}
-		printf("length = %i\n", read_length);
 
+		// Printing message from server
 		printf("%s\n", read_buffer);
 		bzero(read_buffer, read_length); 
 

@@ -7,6 +7,7 @@
 #include <arpa/inet.h>  
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 // Returns an IP address from a domain name 

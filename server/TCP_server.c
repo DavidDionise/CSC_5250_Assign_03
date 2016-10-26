@@ -60,8 +60,8 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 
+		// End 
 		if(strncmp(read_buffer, "--", 2) == 0) {
-			printf("in if");
 			break;
 		}
 
