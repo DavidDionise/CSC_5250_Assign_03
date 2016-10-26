@@ -84,6 +84,20 @@ char* reverseCase(char* str, int length) {
 	return reversed_case_str;
 }
 
+char* processString(char* str, int length) {
+	char* reversed_case_str;
+	char* reversed_str;
+	if(str[0] == '^') {
+		length--; 	// Decrement to account for carot character
+		reversed_case_str = reverseCase(&str[1], length);
+		reversed_str = reverseString(reversed_case_str, length);
+	}
+	else
+		reversed_str = reverseString(str, length);
+ 
+	return reversed_str;
+}
+
 /*int main() {
 	char* str = "hey there";
 	char* new_str = reverseString(str, 9);

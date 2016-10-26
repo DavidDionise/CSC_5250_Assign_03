@@ -22,3 +22,6 @@ char* reverseString(char* str, int length);
 
 // Reverses case for each character in a string
 char* reverseCase(char* str, int length);
+
+// Processes a string based on the input
+char* processString(char* str, int length);
