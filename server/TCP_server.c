@@ -11,7 +11,11 @@
 char* processString(char* str, int length);
 
 int main(int argc, char* argv[]) {
-	
+	if (argc != 2) {
+		perror("Must include port number");
+		exit(1);
+	}
+
 	int socket_fd, new_socket;
 	int port_number = atoi(argv[1]);
 	char read_buffer[MAX_READ_LENGTH];
@@ -55,32 +59,29 @@ int main(int argc, char* argv[]) {
 			perror("Error reading from client\n");
 			exit(1);
 		}
-		
+
+		if(strncmp(read_buffer, "--", 2) == 0) {
+			printf("in if");
+			break;
+		}
+
 		pid = fork();
 
 		// Child process
 		if(pid == 0) {
+			close(socket_fd);
 			char* r_str = processString(read_buffer, len - 1);
 
 			if ((write(new_socket, r_str, len)) < 0) {
 				perror("Error writing to client\n");
 				exit(1);
 			}
-			close(new_socket);
 			exit(0);
 		}
 
-		// Parent process
-		else if(pid > 0){
-			if(waitpid(pid, 0, 0) == -1) {
-				perror("Error wating for child process. Exited with status");
-				exit(1);
-			}
-		}
-		
 		// Error forking
-		else 
-			perror("Error forking new process. Exited with status");
+		else if(pid < 0)
+			perror("Error forking new process.");
 
 		bzero(read_buffer, len);
 	}
@@ -91,13 +92,15 @@ int main(int argc, char* argv[]) {
 }
 
 char* processString(char* str, int length) {
-	printf("str = %s\n", str);
+	char* reversed_case_str;
+	char* reversed_str;
 	if(str[0] == '^') {
-		puts("in if");
-		str = reverseCase(&str[1], length);
-		printf("str = + %s\n", str);
+		length--; 	// Decrement to account for carot character
+		reversed_case_str = reverseCase(&str[1], length);
+		reversed_str = reverseString(reversed_case_str, length);
 	}
-
-	char* reversed_str = reverseString(str, length);
+	else
+		reversed_str = reverseString(str, length);
+ 
 	return reversed_str;
 }

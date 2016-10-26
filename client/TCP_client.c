@@ -20,31 +20,30 @@ int main(int argc, char* argv[]) {
 	}
 
 	int socket_fd;
-	int port_number;
+	int port_number = atoi(argv[2]);
 	struct sockaddr_in server_addr;
 	char read_buffer[MAX_READ_LENGTH];
+	char* message;
+	int length, read_length;
 	
-	socket_fd = socket(AF_INET, SOCK_STREAM, 0);	
-	port_number = atoi(argv[2]);
+	while(1) {
+		socket_fd = socket(AF_INET, SOCK_STREAM, 0);	
 
-	// Initialize socket address
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(port_number);
-	
-	if(inet_aton(getIP(argv[1]), &server_addr.sin_addr.s_addr) == 0) {
-		perror("Error initializing server address\n");
-		exit(1);
-	}
+		// Initialize socket address
+		server_addr.sin_family = AF_INET;
+		server_addr.sin_port = htons(port_number);
+		if(inet_aton(getIP(argv[1]), &server_addr.sin_addr.s_addr) == 0) {
+			perror("Error initializing server address\n");
+			exit(1);
+		}
 
-	// Connect socket
-	connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+		// Connect socket
+		connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
 
-	puts("Enter a message : ");
-	char* message = getLine();
+		puts("Enter a message : ");
+		message = getLine();
 
-	while(strcmp(message, "--")) {
-		int length = strlen(message);
-		int read_length;
+		length = strlen(message);
 
 		if((write(socket_fd, message, length + 1)) < 0) {
 			perror("Error writing to server.");
@@ -55,9 +54,12 @@ int main(int argc, char* argv[]) {
 			perror("Error reading from server.");
 			exit(1);
 		}
+		printf("length = %i\n", read_length);
 
 		printf("%s\n", read_buffer);
 		bzero(read_buffer, read_length); 
+
+		close(socket_fd);
 	}
 
 	close(socket_fd);

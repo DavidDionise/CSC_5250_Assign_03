@@ -28,11 +28,12 @@ char* getLine() {
 	*buf_ptr = '\0';
 	
 	while((c = getchar()) != '\n') {
-		if(count >= (length - 2)) {
+		if(count >= (length - 1)) {
 			length += 10;
 			buffer = (char*)realloc(buffer, length);
 		}
 
+		++count;
 		*buf_ptr = c;
 		*(++buf_ptr) = '\0';
 	}
@@ -54,6 +55,7 @@ char* reverseString(char* str, int length) {
 
 	*r_str_ptr = '\0';
 
+	printf("returning from reversedString with %s\n", reversed_str);
 	return reversed_str;
 }
 
@@ -67,14 +69,17 @@ char* reverseCase(char* str, int length) {
 	for(i = 0; i < length; i++) {
 		int cast = (int)*str_ptr;
 
-		if(cast >= 97 && cast <= 122)
+		if(cast >= 97 && cast <= 122) 
 			*r_str_ptr = (char)(cast - 32);
-		else if(cast >= 65 && cast <= 90)
+		else if(cast >= 65 && cast <= 90) 
 			*r_str_ptr = (char)(cast + 32);
+		else
+			*r_str_ptr = *str_ptr;
 	
 		str_ptr++;
 		r_str_ptr++;
 	}
+	printf("r_str_ptr = %s\n", reversed_case_str);
 
 	*r_str_ptr = '\0';
 
