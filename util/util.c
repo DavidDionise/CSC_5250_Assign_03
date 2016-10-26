@@ -55,7 +55,6 @@ char* reverseString(char* str, int length) {
 
 	*r_str_ptr = '\0';
 
-	printf("returning from reversedString with %s\n", reversed_str);
 	return reversed_str;
 }
 
@@ -79,7 +78,6 @@ char* reverseCase(char* str, int length) {
 		str_ptr++;
 		r_str_ptr++;
 	}
-	printf("r_str_ptr = %s\n", reversed_case_str);
 
 	*r_str_ptr = '\0';
 

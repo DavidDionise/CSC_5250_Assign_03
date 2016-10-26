@@ -50,6 +50,8 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 
+		free(message);
+
 		if((read_length = read(socket_fd, read_buffer, length + 1)) < 0) {
 			perror("Error reading from server.");
 			exit(1);

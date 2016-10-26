@@ -18,7 +18,6 @@ int main(int argc, char* argv[]) {
 
 	int socket_fd, new_socket;
 	int port_number = atoi(argv[1]);
-	char read_buffer[MAX_READ_LENGTH];
 	pid_t pid;
 
 	struct sockaddr_in  server_addr, client_addr;
@@ -54,22 +53,19 @@ int main(int argc, char* argv[]) {
 			perror("Error accepting client");
 			exit(1);
 		}
-
-		if((len = read(new_socket, read_buffer, MAX_READ_LENGTH)) < 0) {
-			perror("Error reading from client\n");
-			exit(1);
-		}
-
-		// End 
-		if(strncmp(read_buffer, "--", 2) == 0) {
-			break;
-		}
+		printf("accepted with fd %i\n", socket_fd);
 
 		pid = fork();
 
 		// Child process
 		if(pid == 0) {
-			close(socket_fd);
+			char read_buffer[MAX_READ_LENGTH];
+
+			if((len = read(new_socket, read_buffer, MAX_READ_LENGTH)) < 0) {
+				perror("Error reading from client\n");
+				exit(1);
+			}
+			//close(socket_fd);
 			char* r_str = processString(read_buffer, len - 1);
 
 			if ((write(new_socket, r_str, len)) < 0) {
@@ -82,8 +78,6 @@ int main(int argc, char* argv[]) {
 		// Error forking
 		else if(pid < 0)
 			perror("Error forking new process.");
-
-		bzero(read_buffer, len);
 	}
 
 	close(socket_fd);
