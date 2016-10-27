@@ -3,13 +3,18 @@
 
 
 char* getIP(char* domain_name) {
-	struct addrinfo *res;
+	puts("starting getIP");
+	struct addrinfo res;
+	struct addrinfo *res_ptr = &res;
 	int error_val;
 
-	if((error_val = getaddrinfo((const char *)domain_name, 0, 0, &res)) == 0) {
-		struct sockaddr_in *sa = (struct sockaddr_in *) res->ai_addr;
+	memset(&res, 0, sizeof(res));
+	
+	if((error_val = getaddrinfo(domain_name, 0, 0, &res_ptr)) == 0) {
+		struct sockaddr_in *sa = (struct sockaddr_in *) res_ptr->ai_addr;
 		socklen_t sa_len = (socklen_t) sizeof(*sa);
 
+		puts("ending getIP");
 		return inet_ntoa(sa->sin_addr);
 	}
 	else {

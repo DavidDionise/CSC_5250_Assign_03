@@ -34,6 +34,7 @@ int main(int argc, char* argv[]) {
 		server_addr.sin_family = AF_INET;
 		server_addr.sin_port = htons(port_number);
 
+		puts("before inet");
 		if(inet_aton(getIP(argv[1]), &server_addr.sin_addr.s_addr) == 0) {
 			perror("Error initializing server address\n");
 			exit(1);
@@ -64,8 +65,7 @@ int main(int argc, char* argv[]) {
 
 		// Printing message from server
 		printf("%s\n", read_buffer);
-		bzero(read_buffer, read_length); 
-
+		bzero(&read_buffer, MAX_READ_LENGTH); 
 		close(socket_fd);
 	}
 
