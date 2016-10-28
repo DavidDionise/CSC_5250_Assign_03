@@ -3,7 +3,6 @@
 
 
 char* getIP(char* domain_name) {
-	puts("starting getIP");
 	struct addrinfo res;
 	struct addrinfo *res_ptr = &res;
 	int error_val;
@@ -14,7 +13,6 @@ char* getIP(char* domain_name) {
 		struct sockaddr_in *sa = (struct sockaddr_in *) res_ptr->ai_addr;
 		socklen_t sa_len = (socklen_t) sizeof(*sa);
 
-		puts("ending getIP");
 		return inet_ntoa(sa->sin_addr);
 	}
 	else {
@@ -103,9 +101,4 @@ char* processString(char* str, int length) {
 	return reversed_str;
 }
 
-/*int main() {
-	char* str = "hey there";
-	char* new_str = reverseString(str, 9);
-	printf("new str = %s\n", new_str);
-}*/
 
