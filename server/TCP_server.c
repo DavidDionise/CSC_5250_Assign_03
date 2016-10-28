@@ -52,7 +52,6 @@ int main(int argc, char* argv[]) {
 			perror("Error accepting client");
 			exit(1);
 		}
-		printf("accepted with fd %i\n", socket_fd);
 
 		pid = fork();
 

@@ -44,10 +44,7 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 	
-		printf("length = %i\n", len);
-		printf("read_buffer = %s\n", read_buffer);
 		r_str = processString(read_buffer, len - 1);
-		printf("r_str = %s\n", r_str);
 
 		if ((sendto(socket_fd, r_str, len, 0,
 			(struct sockaddr *)&client_addr, client_addr_length)) < 0) {

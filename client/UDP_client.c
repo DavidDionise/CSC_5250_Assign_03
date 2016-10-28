@@ -79,7 +79,9 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 		while(!received) {
-			if((read_length = recvfrom(socket_fd, read_buffer, length + 1, 0,
+			bzero(read_buffer, MAX_READ_LENGTH);
+
+			if((read_length = recvfrom(socket_fd, read_buffer, length, 0,
 				(const struct sockaddr*)&server_addr, &server_addr_size)) < 0) {
 				// Timeout signal
 				if(errno == EAGAIN) {

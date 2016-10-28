@@ -42,27 +42,3 @@ struct message_node* findMessage(struct message_list * list, char* message) {
 	return 0;
 }
 
-/*int main() {
-	struct message_list list;
-
-	list.head = 0;
-	list.tail = 0;
-
-	pushMessage(&list, "message1");
-	pushMessage(&list, "message2");
-	pushMessage(&list, "hey there");
-	pushMessage(&list, "yooour kinda dumb");
-	struct message_node * m;
-
-	m = findMessage(&list, "hey there");
-	
-	printf("head = %s\n", list.head->message);
-	printf("tail = %s\n", list.tail->message);
-	if(m)
-		printf("message = %s\n", m->message);
-	else
-		puts("no message");
-	
-
-	return 0;
-}*/
