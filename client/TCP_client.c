@@ -40,8 +40,12 @@ int main(int argc, char* argv[]) {
 		// Connect socket
 		connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
 
-		puts("Enter a message : ");
+		puts("\nEnter a message : ");
 		message = getLine();
+
+		// End
+		if(strcmp("--", message) == 0)
+			break;
 
 		length = strlen(message);
 
@@ -63,6 +67,8 @@ int main(int argc, char* argv[]) {
 
 		close(socket_fd);
 	}
+
+	puts("Ending communication");
 
 	close(socket_fd);
 	return 0;

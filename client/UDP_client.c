@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	while(1) {
-		puts("Enter a message : ");
+		puts("\nEnter a message : ");
 		message = getLine();
 
 		// End
